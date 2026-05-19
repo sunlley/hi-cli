@@ -1,7 +1,9 @@
 const readline = require('readline');
 
 // Interactive y/N (default yes). Returns false in non-TTY so automation never blocks.
-async function confirm(prompt = 'Continue') {
+// Pass { yes: true } (typically from `--yes`/`-y`) to bypass and auto-accept.
+async function confirm(prompt = 'Continue', opts = {}) {
+  if (opts.yes) return true;
   if (!process.stdin.isTTY || !process.stdout.isTTY) return false;
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
   try {

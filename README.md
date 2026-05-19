@@ -48,7 +48,36 @@ hi status       # one-shot health check (text)
 hi mode full    # set caveman mode
 hi stats        # combined rtk + caveman savings
 hi doctor       # deep health check (node, settings.json, claude CLI)
+hi skills       # list ~/.claude/skills/*
+hi plugins      # list installed Claude Code plugins
+hi mcp          # list configured MCP servers
 ```
+
+## Managing skills / plugins / MCP
+
+`hi` includes thin wrappers over the underlying Claude Code surfaces so you can list, inspect, and remove them without remembering separate command shapes:
+
+```bash
+# Skills (filesystem under ~/.claude/skills/)
+hi skills                       # = hi skills list
+hi skills show <name>           # frontmatter + path
+hi skills rm <name>             # delete dir, confirms (or pass -y to skip)
+hi skills rm <name> --dry-run   # show what would be deleted
+
+# Plugins (delegates to: claude plugin)
+hi plugins                      # = hi plugins list (with enabled/version/scope)
+hi plugins show <name>          # = claude plugin details <name>
+hi plugins rm <name>            # = claude plugin uninstall <name>  (confirms)
+hi plugins enable <name>
+hi plugins disable <name>
+
+# MCP servers (delegates to: claude mcp)
+hi mcp                          # = hi mcp list
+hi mcp show <name>              # = claude mcp get <name>
+hi mcp rm <name>                # = claude mcp remove <name>  (confirms)
+```
+
+All three support `-f json|markdown -o file.ext` for scripting / CI, and `-y` / `--yes` to bypass the confirm prompt. `--dry-run` prints the intended action without performing it.
 
 ## Managed add-ons
 
@@ -93,7 +122,11 @@ Commands:
   stats                    combined token-savings report
   doctor                   deep health check (node, settings.json, claude CLI)
   list                     list managed add-ons + repos
-  proxy show               inspect http(s)_proxy + all_proxy env
+  proxy <port|off|show>    set/unset HTTP+SOCKS proxy env (eval-able)
+  skills [list|show|rm]    manage ~/.claude/skills/*
+  plugins [list|show|rm|enable|disable]
+                           manage Claude Code plugins (via claude plugin)
+  mcp [list|show|rm]       manage MCP servers (via claude mcp)
   update                   update caveman to latest from main
 
 Global flags:
@@ -101,6 +134,8 @@ Global flags:
   -o, --output <file>      write report to file (stderr: "saved to ...")
       --lang <en|zh>       output language for status/doctor strings
       --fail-on-missing    exit 2 when any add-on is missing (CI gate)
+  -y, --yes                auto-accept confirms on rm (skills/plugins/mcp)
+      --dry-run            print intended action without doing it (rm)
   -q, --quiet              suppress prompts (CI safe)
       --no-color           disable ANSI colors
   -h, --help               this message
