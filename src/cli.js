@@ -57,10 +57,12 @@ Commands:
   doctor                   deep health check (node, settings.json, claude CLI)
   list                     list managed add-ons + repos
   proxy <port|off|show>    set/unset HTTP+SOCKS proxy env (eval-able exports)
-  skills [list|show|rm]    manage ~/.claude/skills/*
-  plugins [list|show|rm|enable|disable]
-                           manage Claude Code plugins (via claude plugin)
-  mcp [list|show|rm]       manage MCP servers (via claude mcp)
+  skills [list|show|rm]    manage skill dirs across every managed CLI
+  plugins [list|show|rm|enable|disable|doctor|clean]
+                           manage plugins across claude + openclaw;
+                           doctor finds broken/missing, clean auto-disables broken,
+                           --all unhides openclaw stock bundles
+  mcp [list|show|rm]       manage MCP servers across claude/codex/opencode/openclaw
   update                   update caveman to latest from main
 
 Global flags:
