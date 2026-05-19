@@ -1,0 +1,74 @@
+{
+  "name": "@joinc/hi",
+  "version": "0.1.0",
+  "description": "Central manager for Claude Code add-ons (rtk + caveman + superpowers, extensible). One CLI to install, configure, switch modes, and audit token savings.",
+  "keywords": [
+    "claude",
+    "claude-code",
+    "claude-cli",
+    "cli",
+    "tui",
+    "addon",
+    "addons",
+    "addon-manager",
+    "plugin-manager",
+    "rtk",
+    "rust-token-killer",
+    "caveman",
+    "superpowers",
+    "ai-tools",
+    "ai-coding",
+    "ai-coding-agent",
+    "agent",
+    "agent-tools",
+    "developer-tools",
+    "devops",
+    "token-savings",
+    "token-optimization",
+    "anthropic",
+    "llm",
+    "llm-tools",
+    "local-first"
+  ],
+  "license": "MIT",
+  "author": "joinc <sunlley.evan@gmail.com>",
+  "homepage": "https://github.com/joinc/hi-cli#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joinc/hi-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/joinc/hi-cli/issues"
+  },
+  "type": "commonjs",
+  "bin": {
+    "hi": "bin/hi.js"
+  },
+  "main": "src/cli.js",
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "start": "node bin/hi.js",
+    "test": "node bin/hi.js help >/dev/null && node bin/hi.js status -f json >/dev/null && node bin/hi.js doctor -f json >/dev/null && node bin/hi.js list -f json >/dev/null && node bin/hi.js mode >/dev/null && echo ok"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
