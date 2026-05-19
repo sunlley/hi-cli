@@ -17,7 +17,7 @@
 
 ---
 
-**hi** is a local, dependency-free CLI that manages the Claude Code add-on stack. It installs, removes, and reports on three best-in-class tools — `rtk`, `caveman`, and `superpowers` — and exposes them through a single command surface that works in your terminal, in scripts, and in CI.
+**hi** is a local, dependency-free CLI that manages your AI-agent toolkit. It installs, removes, and reports on the Claude Code add-on stack (`rtk`, `caveman`, `superpowers`) plus four sibling CLIs you tend to install alongside it (`codex`, `opencode`, `openclaw`, `hermes`) — all through one command surface that works in your terminal, in scripts, and in CI.
 
 ## Why hi?
 
@@ -52,11 +52,22 @@ hi doctor       # deep health check (node, settings.json, claude CLI)
 
 ## Managed add-ons
 
+Claude Code add-ons:
+
 | Tool | What it does | Repo |
 |---|---|---|
 | **rtk** | Rust Token Killer — proxy that cuts dev-tool tokens 60–90 % | [rtk-ai/rtk](https://github.com/rtk-ai/rtk) |
 | **caveman** | Ultra-compressed output mode for Claude Code | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman) |
 | **superpowers** | Skill-pack plugin for Claude Code | [obra/superpowers](https://github.com/obra/superpowers) |
+
+Sibling AI CLIs (install via `hi install <name>`):
+
+| Tool | What it does | Install via | Repo |
+|---|---|---|---|
+| **codex** | OpenAI Codex CLI | `npm i -g @openai/codex` | [openai/codex](https://github.com/openai/codex) |
+| **opencode** | sst/opencode terminal agent | `brew install sst/tap/opencode` (or `curl opencode.ai/install`) | [sst/opencode](https://github.com/sst/opencode) |
+| **openclaw** | OpenClaw agent runtime | `npm i -g openclaw` | — |
+| **hermes** | Nous Research Hermes Agent | `curl install.sh` | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) |
 
 ## Common workflows
 
