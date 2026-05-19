@@ -12,4 +12,5 @@ module.exports = {
   CAVEMAN_HISTORY: path.join(CLAUDE_DIR, '.caveman-history.jsonl'),
   CLAUDE_PLUGINS_JSON: path.join(CLAUDE_DIR, 'plugins', 'installed_plugins.json'),
   HOOKS_DIR: path.join(CLAUDE_DIR, 'hooks'),
+  SKILLS_DIR: path.join(CLAUDE_DIR, 'skills'),
 };

@@ -13,6 +13,8 @@ const GLOBAL_SPEC = {
   help: { type: 'boolean', alias: 'h' },
   version: { type: 'boolean', alias: 'v' },
   demo: { type: 'boolean' },
+  yes: { type: 'boolean', alias: 'y' },
+  'dry-run': { type: 'boolean' },
 };
 
 const commands = {
@@ -31,6 +33,11 @@ const commands = {
   list: () => require('./commands/list'),
   ls: () => require('./commands/list'),
   tui: () => require('./commands/tui'),
+  skills: () => require('./commands/skills'),
+  skill: () => require('./commands/skills'),
+  plugins: () => require('./commands/plugins'),
+  plugin: () => require('./commands/plugins'),
+  mcp: () => require('./commands/mcp'),
 };
 
 function usage() {
@@ -49,7 +56,11 @@ Commands:
   stats                    combined token-savings report
   doctor                   deep health check (node, settings.json, claude CLI)
   list                     list managed add-ons + repos
-  proxy show               inspect http(s)_proxy + all_proxy env
+  proxy <port|off|show>    set/unset HTTP+SOCKS proxy env (eval-able exports)
+  skills [list|show|rm]    manage ~/.claude/skills/*
+  plugins [list|show|rm|enable|disable]
+                           manage Claude Code plugins (via claude plugin)
+  mcp [list|show|rm]       manage MCP servers (via claude mcp)
   update                   update caveman to latest from main
 
 Global flags:
@@ -57,6 +68,8 @@ Global flags:
   -o, --output <file>      write report to file (stderr: "saved to ...")
       --lang <en|zh>       output language for status/doctor strings
       --fail-on-missing    exit 2 when any add-on is missing (CI gate)
+  -y, --yes                auto-accept confirm prompts (CI safe)
+      --dry-run            print what would be done, do nothing (skills/plugins/mcp rm)
   -q, --quiet              suppress prompts (CI safe)
       --no-color           disable ANSI colors
   -h, --help               this message
