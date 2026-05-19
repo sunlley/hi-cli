@@ -54,7 +54,7 @@
   ],
   "scripts": {
     "start": "node bin/hi.js",
-    "test": "node bin/hi.js help >/dev/null && node bin/hi.js status -f json >/dev/null && node bin/hi.js doctor -f json >/dev/null && node bin/hi.js list -f json >/dev/null && node bin/hi.js mode >/dev/null && echo ok"
+    "test": "node bin/hi.js help >/dev/null && node bin/hi.js status -f json >/dev/null && node bin/hi.js doctor -f json >/dev/null && node bin/hi.js list -f json >/dev/null && node bin/hi.js mode >/dev/null && node bin/hi.js skills list -f json >/dev/null && node bin/hi.js plugins list -f json >/dev/null && node bin/hi.js mcp list -f json >/dev/null && node bin/hi.js proxy 8899 >/dev/null && echo ok"
   },
   "engines": {
     "node": ">=18"

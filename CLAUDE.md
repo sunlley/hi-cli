@@ -46,6 +46,16 @@ Three layers:
 
 `src/commands/tui.js` is a zero-dep raw-mode readline TUI. It calls the **same** command modules as the CLI (`statusCmd.build()`, `installCmd.run`, etc.) — never duplicate logic between TUI and CLI; surface it through a command module.
 
+### skills / plugins / mcp commands
+
+Three thin "manager" commands sit outside the `installers/` add-on registry because they wrap **arbitrary** Claude Code resources, not the curated `hi`-managed set:
+
+- `src/commands/skills.js` — pure filesystem over `P.SKILLS_DIR` (`~/.claude/skills/<name>/`). Parses YAML frontmatter from `SKILL.md` to extract `description`. `rm` is a `fs.rmSync({ recursive, force })`.
+- `src/commands/plugins.js` — shells out to `claude plugin list --json` / `claude plugin uninstall|enable|disable|details`. `claude plugin list --json` returns a flat array of `{ id, version, scope, enabled, ... }` — schema is **different** from `installed_plugins.json` (which is `{ plugins: { id: [...] } }`); always prefer the CLI's JSON to that file.
+- `src/commands/mcp.js` — shells out to `claude mcp list|get|remove`. `claude mcp list` has **no** `--json` flag — text passthrough for `format=text`, best-effort regex parse for `json`/`markdown`. If Anthropic ships `--json`, swap the parse for direct decode.
+
+All three honor the global `-y`/`--yes` (bypass confirm) and `--dry-run` flags wired in `cli.js`'s `GLOBAL_SPEC`. The `confirm()` helper in `lib/confirm.js` accepts `{ yes: true }` as a second arg — pass `{ yes: opts.yes }` from every destructive command.
+
 ### CI gating
 
 `--fail-on-missing` exits **2** (not 1) when any add-on is absent. Exit 1 is reserved for runtime errors, 2 for gate failure. Honor this when adding new gates.
