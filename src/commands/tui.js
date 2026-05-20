@@ -39,7 +39,7 @@ function menuLines() {
   return [
     '',
     c.dim('Press a key:'),
-    `  ${c.bold('[i]')} install all     ${c.bold('[u]')} uninstall`,
+    `  ${c.bold('[i]')} install auto    ${c.bold('[u]')} uninstall`,
     `  ${c.bold('[m]')} mode menu       ${c.bold('[s]')} stats`,
     `  ${c.bold('[d]')} doctor          ${c.bold('[r]')} refresh`,
     `  ${c.bold('[q]')} quit`,
@@ -114,7 +114,7 @@ async function run() {
       }
       try {
         process.stdin.setRawMode(false);
-        if (key === 'i') await installCmd.run(['all'], { format: 'text' });
+        if (key === 'i') await installCmd.run([], { format: 'text' });
         else if (key === 'u') {
           process.stdout.write('  uninstall which? [c]aveman [r]tk [s]uperpowers [a]ll — ');
           const c2 = await readChar();

@@ -7,11 +7,12 @@ const codex = require('./codex');
 const opencode = require('./opencode');
 const openclaw = require('./openclaw');
 const hermes = require('./hermes');
+const agenttrace = require('./agenttrace');
 
-const ALL = [rtk, caveman, superpowers, codex, opencode, openclaw, hermes];
+const ALL = [rtk, caveman, superpowers, codex, opencode, openclaw, hermes, agenttrace];
 
 function byName(name) {
   return ALL.find((p) => p.name === name) || null;
 }
 
-module.exports = { ALL, byName, rtk, caveman, superpowers, codex, opencode, openclaw, hermes };
+module.exports = { ALL, byName, rtk, caveman, superpowers, codex, opencode, openclaw, hermes, agenttrace };

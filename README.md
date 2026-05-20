@@ -17,7 +17,7 @@
 
 ---
 
-**hi** is a local, dependency-free CLI that manages your AI-agent toolkit. It installs, removes, and reports on the Claude Code add-on stack (`rtk`, `caveman`, `superpowers`) plus four sibling CLIs you tend to install alongside it (`codex`, `opencode`, `openclaw`, `hermes`) — all through one command surface that works in your terminal, in scripts, and in CI.
+**hi** is a local, dependency-free CLI that manages your AI-agent toolkit. It installs, removes, and reports on the Claude Code add-on stack (`rtk`, `caveman`, `superpowers`) plus five sibling CLIs you tend to install alongside it (`codex`, `opencode`, `openclaw`, `hermes`, `agenttrace`) — all through one command surface that works in your terminal, in scripts, and in CI.
 
 ## Why hi?
 
@@ -26,7 +26,7 @@ Claude Code becomes useful once you stack the right add-ons. But each one has it
 It helps you answer:
 
 - **Is my Claude Code setup healthy?** One command (`hi`) shows every add-on, version, mode, and savings number.
-- **What do I run on a fresh machine?** `hi setup` installs everything with auto-detected methods (brew → curl → cargo, npx, claude plugin).
+- **What do I run on a machine with several AI CLIs?** `hi setup` detects local AI CLIs first, then installs the matching add-ons and companion tools automatically.
 - **Is my caveman mode active?** `hi mode full` switches it, `hi stats` proves it's saving tokens.
 - **Can I gate this in CI?** `hi status --fail-on-missing` exits non-zero when anything drifts.
 - **Can I read this in Chinese?** `hi --lang zh` flips all reports.
@@ -34,16 +34,23 @@ It helps you answer:
 ## Install
 
 ```bash
+# current repo checkout
+./install.sh
+
+# or install latest published package
 npm i -g @joinc/hi
 ```
 
 Requires Node ≥ 18.
 
+`install.sh` auto-detects the repo checkout and runs `npm link`; outside the repo it falls back to `npm install -g @joinc/hi`.
+
 ## Quick start
 
 ```bash
 hi              # interactive TUI dashboard (no args)
-hi setup        # install everything, asks per tool
+hi setup        # detect local AI CLIs and install matching targets
+hi install all  # force full setup
 hi status       # one-shot health check (text)
 hi mode full    # set caveman mode
 hi stats        # combined rtk + caveman savings
@@ -94,9 +101,10 @@ Sibling AI CLIs (install via `hi install <name>`):
 | Tool | What it does | Install via | Repo |
 |---|---|---|---|
 | **codex** | OpenAI Codex CLI | `npm i -g @openai/codex` | [openai/codex](https://github.com/openai/codex) |
-| **opencode** | sst/opencode terminal agent | `brew install sst/tap/opencode` (or `curl opencode.ai/install`) | [sst/opencode](https://github.com/sst/opencode) |
+| **opencode** | sst/opencode terminal agent | `curl opencode.ai/install` (fallback: `brew install sst/tap/opencode`) | [sst/opencode](https://github.com/sst/opencode) |
 | **openclaw** | OpenClaw agent runtime | `npm i -g openclaw` | — |
 | **hermes** | Nous Research Hermes Agent | `curl install.sh` | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) |
+| **agenttrace** | Local TUI and reports for AI agent session spend, tokens, and latency | `curl agenttrace/install.sh` (fallback: `brew install luoyuctl/tap/agenttrace`) | [luoyuctl/agenttrace](https://github.com/luoyuctl/agenttrace) |
 
 ## Common workflows
 
@@ -126,8 +134,8 @@ Usage:
 
 Commands:
   status                   health + active mode for all managed tools
-  setup                    alias for: hi install all
-  install [tool|all]       install with auto-detected method
+  setup                    alias for: hi install (auto-detect local AI CLIs)
+  install [tool|all]       install auto-detected targets; use 'all' to force full setup
   uninstall [tool|all]     uninstall
   mode <lvl|off>           caveman mode: lite|full|ultra|wenyan|wenyan-*|off
   stats                    combined token-savings report
@@ -175,7 +183,7 @@ Exit codes:
 
 | Need | hi gives you |
 |---|---|
-| One-shot install | `hi setup` picks the right channel per tool, prompts before each step |
+| One-shot install | `hi setup` detects local AI CLIs, then picks matching install targets and methods |
 | Mode switching | `hi mode lite\|full\|ultra\|wenyan-*\|off` writes the caveman flag |
 | Combined report | `hi stats` aggregates rtk savings + caveman lifetime stats |
 | Scriptable | `-f json` on every command, `-o file` to capture output |

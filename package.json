@@ -1,6 +1,6 @@
 {
   "name": "@joinc/hi",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "description": "Central manager for Claude Code add-ons (rtk + caveman + superpowers, extensible). One CLI to install, configure, switch modes, and audit token savings.",
   "keywords": [
     "claude",
@@ -47,6 +47,7 @@
   "main": "src/cli.js",
   "files": [
     "bin",
+    "install.sh",
     "src",
     "README.md",
     "README.zh-CN.md",

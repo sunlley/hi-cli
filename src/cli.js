@@ -19,7 +19,7 @@ const GLOBAL_SPEC = {
 
 const commands = {
   status: () => require('./commands/status'),
-  setup: () => ({ run: (args, opts) => require('./commands/install').run(['all'], opts) }),
+  setup: () => ({ run: (args, opts) => require('./commands/install').run([], opts) }),
   install: () => require('./commands/install'),
   uninstall: () => require('./commands/uninstall'),
   rm: () => require('./commands/uninstall'),
@@ -49,8 +49,8 @@ Usage:
 
 Commands:
   status                   health + active mode for all managed tools
-  setup                    alias for: hi install all
-  install [tool|all]       install with auto-detected method
+  setup                    alias for: hi install (auto-detect local AI CLIs)
+  install [tool|all]       install auto-detected targets; use 'all' to force full setup
   uninstall [tool|all]     uninstall
   mode <lvl|off>           caveman mode: lite|full|ultra|wenyan|wenyan-*|off
   stats                    combined token-savings report
@@ -84,6 +84,8 @@ Examples:
   hi status -f markdown -o s.md   # save markdown
   hi status --fail-on-missing     # CI gate
   hi doctor --lang zh             # Chinese output
+  hi setup                        # detect local AI CLIs and install matching targets
+  hi install all                  # force full setup
   hi proxy 7890                   # persist for new terminals
   eval "$(hi proxy 7890 --print)" # current shell only
 

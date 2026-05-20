@@ -28,8 +28,8 @@ function inspect() {
     out.extras.push({ level: 'bad', text: 'not installed' });
     out.extras.push({ level: 'info', text: 'run:  hi install opencode' });
     let hint = null;
-    if (have('brew')) hint = '  ↳ best method here: brew install sst/tap/opencode';
-    else if (have('curl')) hint = '  ↳ best method here: curl -fsSL opencode.ai/install | bash';
+    if (have('curl')) hint = '  ↳ best method here: curl -fsSL opencode.ai/install | bash';
+    else if (have('brew')) hint = '  ↳ fallback method here: brew install sst/tap/opencode';
     if (hint) out.extras.push({ level: 'info', text: hint });
   }
   return out;
@@ -44,23 +44,23 @@ async function install() {
   }
 
   let method = null;
-  if (have('brew')) method = 'brew';
-  else if (have('curl')) method = 'curl';
+  if (have('curl')) method = 'curl';
+  else if (have('brew')) method = 'brew';
   else {
-    bad('no installer available — need one of: brew, curl');
+    bad('no installer available — need one of: curl, brew');
     info(`manual: https://github.com/${REPO}#installation`);
     return 1;
   }
 
   let rc = 1;
-  if (method === 'brew') {
-    info('method: brew install sst/tap/opencode');
-    if (!(await confirm('proceed'))) { warn('skipped (other methods: curl)'); return 1; }
-    rc = run('brew', ['install', 'sst/tap/opencode']);
-  } else if (method === 'curl') {
+  if (method === 'curl') {
     info('method: curl -fsSL opencode.ai/install | bash');
-    if (!(await confirm('proceed'))) { warn('skipped'); return 1; }
+    if (!(await confirm('proceed'))) { warn('skipped (other method: brew)'); return 1; }
     rc = run('sh', ['-c', 'curl -fsSL https://opencode.ai/install | bash']);
+  } else if (method === 'brew') {
+    info('method: brew install sst/tap/opencode');
+    if (!(await confirm('proceed'))) { warn('skipped'); return 1; }
+    rc = run('brew', ['install', 'sst/tap/opencode']);
   }
 
   if (have('opencode')) { ok(`installed: ${version()}`); return 0; }

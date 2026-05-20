@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-`@joinc/hi` — a single CommonJS Node CLI (Node ≥ 18, zero runtime deps) that manages three Claude Code add-ons: `rtk`, `caveman`, and `superpowers`. It installs/uninstalls them, switches caveman modes, aggregates token-savings stats, and runs a deep doctor check. Pure local-first: only network call is the installer the user explicitly triggers.
+`@joinc/hi` — a single CommonJS Node CLI (Node ≥ 18, zero runtime deps) that manages three Claude Code add-ons: `rtk`, `caveman`, and `superpowers`, plus sibling CLIs like `codex`, `opencode`, `openclaw`, `hermes`, and `agenttrace`. It installs/uninstalls them, switches caveman modes, aggregates token-savings stats, and runs a deep doctor check. Pure local-first: only network call is the installer the user explicitly triggers.
 
 ## Commands
 

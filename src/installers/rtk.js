@@ -29,9 +29,9 @@ function inspect() {
     out.extras.push({ level: 'bad', text: 'not installed' });
     out.extras.push({ level: 'info', text: 'run:  hi install rtk' });
     let hint = null;
-    if (have('brew')) hint = '  ↳ best method here: brew install rtk';
-    else if (have('curl')) hint = '  ↳ best method here: curl install.sh';
+    if (have('curl')) hint = '  ↳ best method here: curl install.sh';
     else if (have('cargo')) hint = '  ↳ best method here: cargo install --git';
+    else if (have('brew')) hint = '  ↳ fallback method here: brew install rtk';
     if (hint) out.extras.push({ level: 'info', text: hint });
     out.extras.push({ level: 'info', text: `manual: https://github.com/${REPO}#installation` });
   }
@@ -47,29 +47,29 @@ async function install() {
   }
 
   let method = null;
-  if (have('brew')) method = 'brew';
-  else if (have('curl')) method = 'curl';
+  if (have('curl')) method = 'curl';
   else if (have('cargo')) method = 'cargo';
+  else if (have('brew')) method = 'brew';
   else {
-    bad('no installer available — need one of: brew, curl, cargo');
+    bad('no installer available — need one of: curl, cargo, brew');
     info(`manual: https://github.com/${REPO}#installation`);
     return 1;
   }
 
   let rc = 1;
-  if (method === 'brew') {
-    info('method: brew install rtk');
-    if (!(await confirm('proceed'))) { warn('skipped (other methods: curl, cargo)'); return 1; }
-    rc = run('brew', ['install', 'rtk']);
-  } else if (method === 'curl') {
+  if (method === 'curl') {
     info('method: curl install.sh | sh   (installs to ~/.local/bin)');
-    if (!(await confirm('proceed'))) { warn('skipped'); return 1; }
+    if (!(await confirm('proceed'))) { warn('skipped (other methods: cargo, brew)'); return 1; }
     rc = run('sh', ['-c', 'curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh']);
   } else if (method === 'cargo') {
     info(`method: cargo install --git https://github.com/${REPO}`);
     info("(note: plain 'cargo install rtk' fetches the wrong crate)");
-    if (!(await confirm('proceed'))) { warn('skipped'); return 1; }
+    if (!(await confirm('proceed'))) { warn('skipped (other method: brew)'); return 1; }
     rc = run('cargo', ['install', '--git', `https://github.com/${REPO}`]);
+  } else if (method === 'brew') {
+    info('method: brew install rtk');
+    if (!(await confirm('proceed'))) { warn('skipped'); return 1; }
+    rc = run('brew', ['install', 'rtk']);
   }
 
   if (rtkInstalled()) {

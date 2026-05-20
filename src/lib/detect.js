@@ -3,6 +3,8 @@ const path = require('path');
 const P = require('./paths');
 const { have } = require('./have');
 
+const AI_CLIS = ['claude', 'codex', 'opencode', 'openclaw', 'hermes'];
+
 function rtkInstalled() {
   return Boolean(have('rtk'));
 }
@@ -34,4 +36,36 @@ function superpowersInstalled(pluginId) {
   }
 }
 
-module.exports = { rtkInstalled, cavemanHooksInstalled, cavemanActiveMode, superpowersInstalled };
+function detectAIClis() {
+  return AI_CLIS.filter((name) => Boolean(have(name)));
+}
+
+function autoInstallTargetsForAIClis(clis = []) {
+  const detected = new Set(clis);
+  const targets = new Set();
+
+  if (detected.size > 0) {
+    targets.add('rtk');
+    targets.add('agenttrace');
+  }
+  if (detected.has('claude')) {
+    targets.add('caveman');
+    targets.add('superpowers');
+  }
+  for (const name of ['codex', 'opencode', 'openclaw', 'hermes']) {
+    if (detected.has(name)) targets.add(name);
+  }
+
+  return ['rtk', 'caveman', 'superpowers', 'codex', 'opencode', 'openclaw', 'hermes', 'agenttrace']
+    .filter((name) => targets.has(name));
+}
+
+module.exports = {
+  AI_CLIS,
+  rtkInstalled,
+  cavemanHooksInstalled,
+  cavemanActiveMode,
+  superpowersInstalled,
+  detectAIClis,
+  autoInstallTargetsForAIClis,
+};

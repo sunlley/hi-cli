@@ -26,7 +26,7 @@ Claude Code 装齐插件才好用，但每个插件都有自己的安装方式�
 它帮你回答：
 
 - **我的 Claude Code 设置健康吗？** 一条命令 (`hi`) 列出所有插件状态、版本、模式、节省量。
-- **新机器上要装什么？** `hi setup` 一键安装，自动选最优方式 (brew → curl → cargo / npx / claude plugin)。
+- **本机装了哪些 AI CLI，要补哪些配套？** `hi setup` 会先探测本机已有 CLI，再自动安装匹配的插件和配套工具。
 - **caveman 模式生效了吗？** `hi mode full` 切换，`hi stats` 看节省。
 - **能在 CI 里卡关吗？** `hi status --fail-on-missing` 缺失插件直接退出 2。
 - **能用中文输出吗？** `hi --lang zh` 全部切换。
@@ -34,16 +34,23 @@ Claude Code 装齐插件才好用，但每个插件都有自己的安装方式�
 ## 安装
 
 ```bash
+# 当前仓库 checkout
+./install.sh
+
+# 或安装 npm 已发布版本
 npm i -g @joinc/hi
 ```
 
 需要 Node ≥ 18。
 
+`install.sh` 在仓库内会自动执行 `npm link`；脱离仓库单独运行时，会回退到 `npm install -g @joinc/hi`。
+
 ## 快速开始
 
 ```bash
 hi              # 交互式 TUI (无参数)
-hi setup        # 一键安装全部
+hi setup        # 先探测本机 AI CLI，再安装匹配目标
+hi install all  # 强制全量安装
 hi status       # 健康检查 (文本)
 hi mode full    # 设置 caveman 模式
 hi stats        # rtk + caveman 节省汇总
@@ -57,6 +64,16 @@ hi doctor       # 深度体检 (node / settings.json / claude CLI)
 | **rtk** | Rust Token Killer — 代理，节省开发工具 60–90% token | [rtk-ai/rtk](https://github.com/rtk-ai/rtk) |
 | **caveman** | Claude Code 超压缩输出模式 | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman) |
 | **superpowers** | Claude Code 技能包插件 | [obra/superpowers](https://github.com/obra/superpowers) |
+
+配套 AI CLI（可用 `hi install <name>` 安装）：
+
+| 工具 | 作用 | 安装方式 | 仓库 |
+|---|---|---|---|
+| **codex** | OpenAI Codex CLI | `npm i -g @openai/codex` | [openai/codex](https://github.com/openai/codex) |
+| **opencode** | sst/opencode 终端 agent | `curl opencode.ai/install`（回退：`brew install sst/tap/opencode`） | [sst/opencode](https://github.com/sst/opencode) |
+| **openclaw** | OpenClaw agent runtime | `npm i -g openclaw` | — |
+| **hermes** | Nous Research Hermes Agent | `curl install.sh` | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) |
+| **agenttrace** | 本地查看 AI agent 历史会话、token、花费和慢点分析 | `curl agenttrace/install.sh`（回退：`brew install luoyuctl/tap/agenttrace`） | [luoyuctl/agenttrace](https://github.com/luoyuctl/agenttrace) |
 
 ## 常用工作流
 
@@ -86,8 +103,8 @@ hi stats -f json -o stats.json
 
 命令:
   status                   全部插件健康 + 当前模式
-  setup                    等同于 hi install all
-  install [tool|all]       自动方式安装
+  setup                    等同于 hi install（自动探测本机 AI CLI）
+  install [tool|all]       自动安装匹配目标；传 all 强制全装
   uninstall [tool|all]     卸载
   mode <lvl|off>           caveman 模式: lite|full|ultra|wenyan|wenyan-*|off
   stats                    token 节省汇总
@@ -128,7 +145,7 @@ hi stats -f json -o stats.json
 
 | 需求 | hi 给你 |
 |---|---|
-| 一键安装 | `hi setup` 自动选择最优渠道，逐步确认 |
+| 一键安装 | `hi setup` 先探测本机 AI CLI，再安装匹配目标并逐步确认 |
 | 模式切换 | `hi mode lite\|full\|ultra\|wenyan-*\|off` 写入 caveman flag |
 | 汇总报告 | `hi stats` 把 rtk 与 caveman 数据合并 |
 | 脚本友好 | 每个命令支持 `-f json`、`-o file` |
