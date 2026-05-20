@@ -56,7 +56,7 @@ Commands:
   stats                    combined token-savings report
   doctor                   deep health check (node, settings.json, claude CLI)
   list                     list managed add-ons + repos
-  proxy <port|off|show>    set/unset HTTP+SOCKS proxy env (eval-able exports)
+  proxy <port|off|show>    direct use persists proxy; eval/--print emits shell exports
   skills [list|show|rm]    manage skill dirs across every managed CLI
   plugins [list|show|rm|enable|disable|doctor|clean]
                            manage plugins across claude + openclaw;
@@ -84,6 +84,8 @@ Examples:
   hi status -f markdown -o s.md   # save markdown
   hi status --fail-on-missing     # CI gate
   hi doctor --lang zh             # Chinese output
+  hi proxy 7890                   # persist for new terminals
+  eval "$(hi proxy 7890 --print)" # current shell only
 
 Repos:
   caveman      https://github.com/JuliusBrussee/caveman

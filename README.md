@@ -133,7 +133,7 @@ Commands:
   stats                    combined token-savings report
   doctor                   deep health check (node, settings.json, claude CLI)
   list                     list managed add-ons + repos
-  proxy <port|off|show>    set/unset HTTP+SOCKS proxy env (eval-able)
+  proxy <port|off|show>    direct use persists proxy; eval/--print emits shell exports
   skills [list|show|rm]    manage ~/.claude/skills/*
   plugins [list|show|rm|enable|disable]
                            manage Claude Code plugins (via claude plugin)
@@ -183,6 +183,15 @@ Exit codes:
 | Local-first | Pure JS, zero runtime deps, no telemetry, no network calls except installers you trigger |
 | Bilingual | `--lang en\|zh` for status / doctor / mode strings |
 | TUI | Bare `hi` launches an interactive dashboard with hotkeys |
+
+## Proxy behavior
+
+```bash
+hi proxy 7890                    # persist to your shell rc (~/.zshrc on zsh)
+hi proxy off                     # remove the persisted block
+eval "$(hi proxy 7890 --print)"  # current shell only
+hi proxy show                    # inspect current env + persistence state
+```
 
 ## Adding a new add-on
 

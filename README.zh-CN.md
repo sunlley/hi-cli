@@ -93,7 +93,7 @@ hi stats -f json -o stats.json
   stats                    token 节省汇总
   doctor                   深度体检
   list                     列出已管理插件
-  proxy show               查看 http(s)_proxy / all_proxy
+  proxy <port|off|show>    直接执行会持久化；配合 eval/--print 输出当前 shell 用的 export
   update                   更新 caveman 到 main 最新
 
 全局参数:
